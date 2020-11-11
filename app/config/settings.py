@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'core',
     'users',
+    'react_app',
 ]
 
 MIDDLEWARE = [

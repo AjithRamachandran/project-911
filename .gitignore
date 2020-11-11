@@ -130,3 +130,6 @@ dmypy.json
 
 # vscode workspace
 .vscode/
+
+#node modules
+app/react_app/node_modules/
