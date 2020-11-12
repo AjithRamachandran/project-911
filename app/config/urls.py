@@ -22,6 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/user/', include('users.urls')),
     path('api/profile/', include('profiles.urls')),
-    path('bb/', include('blood_banks.urls')),
+    path('api/bb/', include('blood_banks.urls')),
     path('', include('react_app.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
