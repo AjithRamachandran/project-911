@@ -26,7 +26,6 @@ class UserLoginView(APIView):
     serializer_class = UserSerializer
 
     def post(self, request, *args, **kwargs):
-        error = None
         email = request.data.get('email', None)
         password = request.data.get('password', None)
 
