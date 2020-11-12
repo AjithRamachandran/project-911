@@ -4,6 +4,8 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework.serializers import ModelSerializer
 from rest_framework.serializers import CharField
 
+from profiles.models import Profile
+
 class UserSerializer(ModelSerializer):
     """
     Serializer for User.
@@ -18,6 +20,7 @@ class UserSerializer(ModelSerializer):
         Create a new user with encrypted password.
         """
         user = get_user_model().objects.create_user(**validated_data)
+        profile = Profile.objects.create(user=user)
         return user
 
 class UpdatePasswordSerializer(ModelSerializer):
