@@ -12,6 +12,7 @@ CHANGE_PWD_URL = reverse('users:change_pwd')
 CHANGE_MAIL_URL = reverse('users:change_mail')
 GET_PROFILE_URL = reverse('profiles:get_profile')
 EDIT_PROFILE_URL = reverse('profiles:profile_edit')
+GET_BLOOD_BANKS_URL = reverse('bb:blood_banks')
 
 # end of constants
 

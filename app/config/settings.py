@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'core',
     'users',
     'profiles',
+    'blood_banks',
     'react_app',
 ]
 

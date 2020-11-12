@@ -4,6 +4,7 @@ from django.utils.translation import gettext as _
 
 from core.models import User
 from profiles.models import Profile
+from blood_banks.models import BloodBank
 
 class UserAdmin(BaseUserAdmin):
     ordering = ('id',)
@@ -28,3 +29,4 @@ class UserAdmin(BaseUserAdmin):
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Profile)
+admin.site.register(BloodBank)
