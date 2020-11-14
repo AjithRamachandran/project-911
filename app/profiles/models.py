@@ -7,9 +7,9 @@ class Profile(models.Model):
     db model to store the profile details of a user. 
     """
     GENDER_CHOICES = (
-        ('M', 'Male'),
-        ('F', 'Female'),
-        ('OTH', 'Others')
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+        ('Others', 'Others')
     )
 
     BLOOD_GROUP_CHOICES = (

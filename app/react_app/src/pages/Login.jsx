@@ -3,6 +3,8 @@ import axios from 'axios'
 
 import '../assets/style.css'
 
+import { Button, Form } from 'react-bootstrap'
+
 const LoginPage = ({ history }) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -16,7 +18,7 @@ const LoginPage = ({ history }) => {
         axios
             .get('/api/user/isauthenticated/')
             .then(res => {
-                if(res.data.user)
+                if (res.data.user)
                     history.push('/')
             })
     }, [])
@@ -33,7 +35,7 @@ const LoginPage = ({ history }) => {
             })
             .catch((err) => {
                 if (err.response) {
-                    setError(err.response.data)
+                    setError('something went wrong please try again.')
                 }
             })
     }
@@ -43,35 +45,30 @@ const LoginPage = ({ history }) => {
             <div className='main col-12'>
                 <h3>Log In</h3>
                 {error && <div className='alert alert-danger'>{error}</div>}
-                <div role='form'>
-                    <div className='form-group'>
-                        <label htmlFor='inputUsernameEmail'>Email</label>
-                        <input
-                            type='text'
-                            className='form-control'
-                            id='inputUsernameEmail'
+                <Form>
+                    <Form.Group controlId="SignupForm.EmailInput">
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control
+                            type="email"
                             onChange={(e) => setEmail(e.target.value)}
-                            autoFocus
-                        />
-                    </div>
-                    <div className='form-group'>
-                        <label htmlFor='inputPassword'>Password</label>
-                        <input
-                            type='password'
-                            className='form-control mb-2'
-                            id='inputPassword'
+                            required
+                            autoFocus />
+                    </Form.Group>
+                    <Form.Group controlId="SignupForm.PasswordInput">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control
+                            type="password"
                             onChange={(e) => setPassword(e.target.value)}
-                        />
+                            required />
                         <a className='pull-right' href='reset-password'>
                             Forgot password?
-            </a>
-                    </div>
-                    <button
+                        </a>
+                    </Form.Group>
+                    <Button
                         className='btn btn btn-primary btn-block mb-2'
-                        onClick={(e) => login(e)}
-                    >
+                        onClick={(e) => login(e)} >
                         Log In
-          </button>
+                    </Button>
                     <span className='pull-right mt-2'>
                         <h6>
                             <small>
@@ -79,7 +76,7 @@ const LoginPage = ({ history }) => {
                             </small>
                         </h6>
                     </span>
-                </div>
+                </Form>
             </div>
         </div>
     )

@@ -19,7 +19,7 @@ from django.conf import settings
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('api/admin/', admin.site.urls),
     path('api/user/', include('users.urls')),
     path('api/profile/', include('profiles.urls')),
     path('api/bb/', include('blood_banks.urls')),
