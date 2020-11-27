@@ -56,8 +56,8 @@ class UserLogoutView(APIView):
     endpoint: user/logout
     params: none
     """ 
-    authentication_classes = [SessionAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [SessionAuthentication]
+    # permission_classes = [IsAuthenticated]
 
     def post(self, request):
         try:

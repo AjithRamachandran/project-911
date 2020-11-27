@@ -20,9 +20,8 @@ module.exports = {
       ],
     },
     devServer: {
-      hot: true,
       headers: {
         'Access-Control-Allow-Origin': '*',
       }
     }
-  }
+}

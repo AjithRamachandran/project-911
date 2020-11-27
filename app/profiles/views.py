@@ -1,4 +1,4 @@
-from rest_framework.generics import RetrieveAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -53,3 +53,12 @@ class ProfileEditApiView(APIView):
             serializer.save()
             return Response(status=HTTP_200_OK)
         return Response(data=serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+class ListProfileApiView(ListAPIView):
+    """
+    API View to get profile details of current user.
+    endpoint: profile/all
+    params: none
+    """
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer

@@ -85,9 +85,7 @@ const SignupPage = ({ history }) => {
                     contact_number: contact,
                     secondary_contact: secContact
                 })
-                .then(res => {
-                    console.log(res.data)
-                })
+                .then(history.push('/'))
                 .catch((err) => {
                     if (err.response) {
                         setError('something went wrong please try again!')
