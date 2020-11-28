@@ -23,6 +23,23 @@ class Profile(models.Model):
         ('O-', 'O-'),
     )
 
+    DISTRICT_CHOICES = (
+        ('TVM', 'Thiruvananthapuram'),
+        ('KLM', 'Kollam'),
+        ('PTM', 'Pathanamthitta'),
+        ('ALP', 'Alappuzha'),
+        ('KTM', 'Kottayam'),
+        ('IDK', 'Idukki'),
+        ('EKM', 'Ernakulam'),
+        ('TSR', 'Thrissur'),
+        ('MLP', 'Malappuram'),
+        ('PKD', 'Palakkad'),
+        ('MLP', 'Wayanad'),
+        ('KZD', 'Kozhikode'),
+        ('KNR', 'Kannur'),
+        ('KSD', 'Kasargod'),
+    )
+
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$')
 
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, primary_key=True)
@@ -30,6 +47,7 @@ class Profile(models.Model):
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, null=True)
     blood_group = models.CharField(max_length=10, choices=BLOOD_GROUP_CHOICES, null=True)
     dob = models.DateField(null=True)
+    district = models.CharField(max_length=30, choices=DISTRICT_CHOICES)
     contact_number = models.CharField(validators=[phone_regex], max_length=15, blank=True, null=True)
     secondary_contact = models.CharField(validators=[phone_regex], max_length=15, blank=True, null=True)
     joined = models.DateField(auto_now_add=True)

@@ -10,6 +10,9 @@ const homePage = ({ history }) => {
     const [bb, setBb] = useState([])
     const [profiles, setProfiles] = useState([])
     const [bloodGroup, setBloodGroup] = useState('')
+    const [name, setName] = useState('')
+    const [profileDistrict, setProfileDistrict] = useState('')
+    const [bbDistrict, setBbDistrict] = useState('')
 
     useEffect(() => {
         axios
@@ -35,11 +38,29 @@ const homePage = ({ history }) => {
     }
 
     const filterProfileResult = (e) => {
-
+        e.preventDefault()
+        console.log(bloodGroup);
+        console.log(profileDistrict);
+        axios
+            .get('/api/profile/all/', {
+                params: {
+                    bg: bloodGroup,
+                    district: profileDistrict
+                }
+            })
+            .then(res => { console.log(res.data); setProfiles(res.data) })
     }
 
     const filterBbResult = (e) => {
-
+        e.preventDefault()
+            axios
+                .get('/api/bb/', {
+                    params: {
+                        name: name,
+                        district: bbDistrict
+                    }
+                })
+                .then(res => { console.log(res.data); setBb(res.data) })
     }
 
     return (
@@ -90,7 +111,7 @@ const homePage = ({ history }) => {
                                         </Col>
                                         <Col>
                                             <Form.Group controlId="Home.BloodGroupSelect">
-                                                <Form.Control as="select" onChange={(e) => setBloodGroup(e.target.value)}>
+                                                <Form.Control as="select" onChange={(e) => setProfileDistrict(e.target.value)}>
                                                     <option>District</option>
                                                     <option>TVM</option>
                                                     <option>KLM</option>
@@ -143,9 +164,25 @@ const homePage = ({ history }) => {
                             <Tab.Pane eventKey="bb">
                                 <Form>
                                     <Form.Row>
-                                        <Col>
-                                            <Form.Group controlId="Home.BloodGroupSelect">
-                                                <Form.Control as="select" onChange={(e) => setBloodGroup(e.target.value)}>
+                                        <Col sm={3}>
+                                            <Form.Label htmlFor="inlineFormInput" srOnly>
+                                                Name
+                                                </Form.Label>
+                                            <Form.Control
+                                                className="mb-2"
+                                                id="inlineFormInput"
+                                                placeholder="Search"
+                                                onChange={(e) => setName(e.target.value)}
+                                            />
+                                        </Col>
+                                        <Col sm={3}>
+                                            <Button type="submit" className="mb-2" onClick={(e) => filterBbResult(e)}>
+                                                Search
+                                            </Button>
+                                        </Col>
+                                        <Col sm={3}>
+                                            <Form.Group controlId="bloodGroup.BloodGroupSelect">
+                                                <Form.Control as="select" onChange={(e) => setBbDistrict(e.target.value)}>
                                                     <option>District</option>
                                                     <option>TVM</option>
                                                     <option>KLM</option>
@@ -163,18 +200,16 @@ const homePage = ({ history }) => {
                                                 </Form.Control>
                                             </Form.Group>
                                         </Col>
-                                        <Col>
+                                        <Col sm={3}>
                                             <Button
-                                                className='btn btn-primary btn-block mb-2'
+                                                className='mb-2'
                                                 type='submit'
                                                 onClick={(e) => filterBbResult(e)} >
                                                 Filter
-                                </Button>
+                                            </Button>
                                         </Col>
                                     </Form.Row>
                                 </Form>
-
-
                                 <Row>
                                     {bb.map(bbItem => {
                                         return (
@@ -182,7 +217,7 @@ const homePage = ({ history }) => {
                                                 <Card className='m-4'>
                                                     <Card.Body>
                                                         <Card.Title as="h5">
-                                                            {bbItem.id}
+                                                            {bbItem.name}
                                                         </Card.Title>
                                                         <Card.Text>
                                                             <p>{bbItem.address}</p>

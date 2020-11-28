@@ -14,20 +14,31 @@ class GetBloodBanksApiView(APIView):
     serializer_class = BloodBankSerializer
 
     def get(self, request):
-        name = self.request.data.get('name', None)
-        district = self.request.data.get('district', None)
+        name = self.request.query_params.get('name', None)
+        district = self.request.query_params.get('district', None)
 
+        if(district == 'District' or district == ''):
+            district = None
+
+        print(name)
+        if name == '':
+            name = None
+        
         if name is None and district is None:
+            print('1')
             self.bb = BloodBank.objects.all()
 
         if name is not None and district is None:
-            self.bb = BloodBank.objects.get(name=name)
+            print('2')
+            self.bb = BloodBank.objects.filter(name__search=name)
 
         if name is None and district is not None:
-            self.bb = BloodBank.objects.get(district=district)
+            print('3')
+            self.bb = BloodBank.objects.filter(district=district)
 
         if name is not None and district is not None:
-            self.bb = BloodBank.objects.get(name=name, district=district)
+            print('4')
+            self.bb = BloodBank.objects.filter(name__search=name, district=district)
 
         serializer = BloodBankSerializer(self.bb, many=True)
         return Response(serializer.data, status=HTTP_200_OK)

@@ -54,11 +54,35 @@ class ProfileEditApiView(APIView):
             return Response(status=HTTP_200_OK)
         return Response(data=serializer.errors, status=HTTP_400_BAD_REQUEST)
 
-class ListProfileApiView(ListAPIView):
+class ListProfileApiView(APIView):
     """
     API View to get profile details of current user.
     endpoint: profile/all
     params: none
     """
-    queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+
+    def get(self, request):
+        bg = self.request.query_params.get('bg', None)
+        district = self.request.query_params.get('district', None)
+        
+        if(district == 'District' or district == ''):
+            district = None
+        
+        if(bg == 'Blood Group' or bg == ''):
+            bg = None
+
+        if bg is None and district is None:
+            self.profile = Profile.objects.all()
+
+        if bg is not None and district is None:
+            self.profile = Profile.objects.filter(blood_group=bg)
+
+        if bg is None and district is not None:
+            self.profile = Profile.objects.filter(district=district)
+
+        if bg is not None and district is not None:
+            self.profile = Profile.objects.filter(blood_group=bg, district=district)
+
+        serializer = ProfileSerializer(self.profile, many=True)
+        return Response(serializer.data, status=HTTP_200_OK)
