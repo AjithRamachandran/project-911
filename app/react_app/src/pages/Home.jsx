@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react'
 
 import axios from 'axios'
 
-import { Nav, Navbar, Row, Col, Tab, Button, Card, Form } from 'react-bootstrap'
+import { Nav, Navbar, Row, Col, Tab, Button, Card, Form, Dropdown } from 'react-bootstrap'
+
+import ProfileModal from '../components/profileModal.jsx'
 
 const homePage = ({ history }) => {
 
     const [user, setUser] = useState(0)
+    const [modalShow, setModalShow] = useState(false);
     const [bb, setBb] = useState([])
     const [profiles, setProfiles] = useState([])
     const [bloodGroup, setBloodGroup] = useState('')
@@ -53,39 +56,57 @@ const homePage = ({ history }) => {
 
     const filterBbResult = (e) => {
         e.preventDefault()
-            axios
-                .get('/api/bb/', {
-                    params: {
-                        name: name,
-                        district: bbDistrict
-                    }
-                })
-                .then(res => { console.log(res.data); setBb(res.data) })
+        axios
+            .get('/api/bb/', {
+                params: {
+                    name: name,
+                    district: bbDistrict
+                }
+            })
+            .then(res => { console.log(res.data); setBb(res.data) })
     }
 
     return (
-        <div>
-            <Navbar bg="primary" className="justify-content-between mb-2" variant="dark">
+        <div className='bg-secondary'>
+            <Navbar bg="dark" className="justify-content-between" variant="dark">
                 <Navbar.Brand>Project-911</Navbar.Brand>
                 {user === 1 &&
-                    <Button variant="danger" onClick={(e) => logout(e)}>Logout</Button>
+                    <Dropdown alignRight>
+                        <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                            Profile
+                    </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            <Dropdown.Item>
+                                <Button variant="link" onClick={() => setModalShow(true)}>
+                                    Edit profile
+                        </Button>
+                                <ProfileModal
+                                    show={modalShow}
+                                    onHide={() => setModalShow(false)} />
+                            </Dropdown.Item>
+                            <Dropdown.Item>
+                            <Button variant="link" onClick={(e) => logout(e)}>Logout</Button>
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
                 }
                 {user === 0 &&
                     <div>
-                        <Button variant="success" onClick={() => history.push('login/')}>Login</Button>
-                        <Button variant="outline-success" onClick={() => history.push('signup/')}>Signup</Button>
+                        <Button variant="primary" className='mx-2' onClick={() => history.push('login/')}>Login</Button>
+                        <Button variant="primary" onClick={() => history.push('signup/')}>Signup</Button>
                     </div>
                 }
             </Navbar>
-            <Tab.Container className="m-5" id="left-tabs-example" defaultActiveKey="home">
-                <Row>
-                    <Col className='bg-light text-dark position-sticky min-vh-100 text-center font-weight-bold' sm={2}>
+            <Tab.Container id="left-tabs-example" defaultActiveKey="home">
+                <Row className="pt-2">
+                    <Col className='text-dark position-sticky min-vh-100 text-center font-weight-bold border-right' sm={2}>
                         <Nav className="flex-column">
-                            <Nav.Item className="my-2">
-                                <Nav.Link eventKey="home">Home</Nav.Link>
+                            <Nav.Item className="">
+                                <Nav.Link eventKey="home" className="border-bottom py-2 text-white">Home</Nav.Link>
                             </Nav.Item>
-                            <Nav.Item className="my-2">
-                                <Nav.Link eventKey="bb">Blood Banks</Nav.Link>
+                            <Nav.Item className="">
+                                <Nav.Link eventKey="bb" className="border-bottom py-2 text-white">Blood Banks</Nav.Link>
                             </Nav.Item>
                         </Nav>
                     </Col>
@@ -131,7 +152,7 @@ const homePage = ({ history }) => {
                                         </Col>
                                         <Col>
                                             <Button
-                                                className='btn btn-success btn-block mb-2'
+                                                className='btn btn-primary btn-block mb-2'
                                                 type='submit'
                                                 onClick={(e) => filterProfileResult(e)} >
                                                 Filter
@@ -143,7 +164,7 @@ const homePage = ({ history }) => {
                                     {profiles.map(profile => {
                                         return (
                                             <Col sm={4} key={profile.name}>
-                                                <Card className='m-4'>
+                                                <Card className='m-4 bg-warning text-dark'>
                                                     <Card.Body>
                                                         <Card.Title as="h5">
                                                             {profile.name}
@@ -176,7 +197,7 @@ const homePage = ({ history }) => {
                                             />
                                         </Col>
                                         <Col sm={3}>
-                                            <Button type="submit" className="mb-2" onClick={(e) => filterBbResult(e)}>
+                                            <Button type="submit" className="btn btn-primary btn-block" onClick={(e) => filterBbResult(e)}>
                                                 Search
                                             </Button>
                                         </Col>
@@ -202,7 +223,7 @@ const homePage = ({ history }) => {
                                         </Col>
                                         <Col sm={3}>
                                             <Button
-                                                className='mb-2'
+                                                className='btn btn-primary btn-block'
                                                 type='submit'
                                                 onClick={(e) => filterBbResult(e)} >
                                                 Filter

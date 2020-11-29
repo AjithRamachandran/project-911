@@ -8,6 +8,8 @@ import LoginPage from './pages/Login.jsx'
 import HomePage from './pages/Home.jsx'
 import SignupPage from './Pages/Signup.jsx'
 
+import './assets/style.scss'
+
 ReactDOM.render(
   <Router>
     <Route component={LoginPage} path='/login' exact></Route>

@@ -21,15 +21,15 @@ class ProfileApiView(RetrieveAPIView):
         serializer = self.get_serializer(instance)
         return Response(serializer.data, status=HTTP_200_OK)
 
-class UserProfileApiView(RetrieveAPIView):
-    """
-    API View to get other users' profile details.
-    endpoint: profile/u/<int:uid>
-    params: uid -> User Id
-    """
-    serializer_class = ProfileSerializer
-    lookup_url_kwarg = 'uid'
-    queryset = Profile.objects.all()
+# class UserProfileApiView(RetrieveAPIView):
+#     """
+#     API View to get other users' profile details.
+#     endpoint: profile/u/<int:uid>
+#     params: uid -> User Id
+#     """
+#     serializer_class = ProfileSerializer
+#     lookup_url_kwarg = 'uid'
+#     queryset = Profile.objects.all()
 
 class ProfileEditApiView(APIView):
     """

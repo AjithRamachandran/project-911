@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-import '../assets/style.css'
-
 import { Button, Form } from 'react-bootstrap'
 
 const SignupPage = ({ history }) => {
@@ -12,6 +10,7 @@ const SignupPage = ({ history }) => {
     const [name, setName] = useState('')
     const [gender, setGender] = useState('')
     const [bloodGroup, setBloodGroup] = useState('')
+    const [location, setLocation] = useState('')
     const [contact, setContact] = useState('')
     const [secContact, setSecContact] = useState('')
     const [dob, setDob] = useState(new Date().toISOString())
@@ -75,12 +74,17 @@ const SignupPage = ({ history }) => {
             errorText = 'Please select a blood group.'
             profileError = 1
         }
+        if (location == 'Select') {
+            errorText = 'Please select a location.'
+            profileError = 1
+        }
         if (profileError === 0) {
             axios
                 .patch('/api/profile/edit/', {
                     name: name,
                     gender: gender,
                     blood_group: bloodGroup,
+                    district: location,
                     dob: dob,
                     contact_number: contact,
                     secondary_contact: secContact
@@ -147,8 +151,6 @@ const SignupPage = ({ history }) => {
                         <Form.Group controlId="SignupForm.NameInput">
                             <Form.Label>Name</Form.Label>
                             <Form.Control
-                                type="email"
-                                placeholder="name@example.com"
                                 onChange={(e) => setName(e.target.value)}
                                 autoFocus />
                         </Form.Group>
@@ -173,6 +175,25 @@ const SignupPage = ({ history }) => {
                                 <option>B-</option>
                                 <option>O+</option>
                                 <option>O-</option>
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group controlId="Signup.LocationSelect">
+                            <Form.Label>Location</Form.Label>
+                            <Form.Control as="select" onChange={(e) => setLocation(e.target.value)}>
+                                <option>Select</option>
+                                <option>TVM</option>
+                                <option>KLM</option>
+                                <option>PTM</option>
+                                <option>ALP</option>
+                                <option>KTM</option>
+                                <option>IDK</option>
+                                <option>EKM</option>
+                                <option>TSR</option>
+                                <option>MLP</option>
+                                <option>WYD</option>
+                                <option>KZD</option>
+                                <option>KNR</option>
+                                <option>KSD</option>
                             </Form.Control>
                         </Form.Group>
                         <Form.Group controlId="SignupForm.DobSelect">

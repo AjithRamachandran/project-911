@@ -25,19 +25,15 @@ class GetBloodBanksApiView(APIView):
             name = None
         
         if name is None and district is None:
-            print('1')
             self.bb = BloodBank.objects.all()
 
         if name is not None and district is None:
-            print('2')
             self.bb = BloodBank.objects.filter(name__search=name)
 
         if name is None and district is not None:
-            print('3')
             self.bb = BloodBank.objects.filter(district=district)
 
         if name is not None and district is not None:
-            print('4')
             self.bb = BloodBank.objects.filter(name__search=name, district=district)
 
         serializer = BloodBankSerializer(self.bb, many=True)

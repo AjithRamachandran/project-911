@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-import '../assets/style.css'
-
 import { Button, Form } from 'react-bootstrap'
 
 const LoginPage = ({ history }) => {
