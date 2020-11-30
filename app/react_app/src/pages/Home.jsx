@@ -69,7 +69,7 @@ const homePage = ({ history }) => {
     return (
         <div className='bg-secondary'>
             <Navbar bg="dark" className="justify-content-between" variant="dark">
-                <Navbar.Brand>Project-911</Navbar.Brand>
+                <Navbar.Brand>Ichor</Navbar.Brand>
                 {user === 1 &&
                     <Dropdown alignRight>
                         <Dropdown.Toggle variant="primary" id="dropdown-basic">
@@ -86,7 +86,7 @@ const homePage = ({ history }) => {
                                     onHide={() => setModalShow(false)} />
                             </Dropdown.Item>
                             <Dropdown.Item>
-                            <Button variant="link" onClick={(e) => logout(e)}>Logout</Button>
+                                <Button variant="link" onClick={(e) => logout(e)}>Logout</Button>
                             </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>

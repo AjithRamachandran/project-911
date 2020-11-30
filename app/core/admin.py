@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext as _
+from django.contrib.auth.models import Group
 
 from core.models import User
 from profiles.models import Profile
@@ -30,3 +31,4 @@ class UserAdmin(BaseUserAdmin):
 admin.site.register(User, UserAdmin)
 admin.site.register(Profile)
 admin.site.register(BloodBank)
+admin.site.unregister(Group)
