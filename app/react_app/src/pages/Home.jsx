@@ -73,7 +73,7 @@ const homePage = ({ history }) => {
     return (
         <div className='bg-secondary'>
             <Navbar bg="dark" className="justify-content-between" variant="dark">
-                <Navbar.Brand>Ichor</Navbar.Brand>
+                <Navbar.Brand><img href="https://ibb.co/kQMk6tp"></img>Ichor</Navbar.Brand>
                 {user === 1 &&
                     <Dropdown alignRight>
                         <Dropdown.Toggle variant="primary" id="dropdown-basic">

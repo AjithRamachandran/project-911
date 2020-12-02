@@ -59,7 +59,6 @@ const ProfileModal = (props) => {
     }
     if (gender !== undefined && gender !== profile.gender) {
       data.gender = gender
-      console.log(gender !== profile.gender)
     }
     if (bloodGroup !== undefined && bloodGroup !== profile.blood_group) {
       data.blood_group = bloodGroup
@@ -68,7 +67,6 @@ const ProfileModal = (props) => {
       data.district = location
     }
     if (dob !== undefined && dob !== profile.dob) {
-      console.log(dob)
       data.dob = dob
     }
     if (contact !== undefined && contact !== profile.contact_number) {
@@ -77,8 +75,6 @@ const ProfileModal = (props) => {
     if (secContact !== undefined && secContact !== profile.secondary_contact) {
       data.secondary_contact = secContact
     }
-
-    console.log(data);
 
     if (profileError === 0) {
       axios
