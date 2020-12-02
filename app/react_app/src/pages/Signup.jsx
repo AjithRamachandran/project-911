@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+
 import axios from 'axios'
 
 import { Button, Form } from 'react-bootstrap'
@@ -18,10 +19,6 @@ const SignupPage = ({ history }) => {
     const [error, setError] = useState('')
     const [phase, setPhase] = useState(0)
 
-    axios.defaults.withCredentials = true
-    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-    axios.defaults.xsrfCookieName = "csrftoken";
-
     useEffect(() => {
         axios
             .get('/api/user/isauthenticated/')
@@ -40,7 +37,6 @@ const SignupPage = ({ history }) => {
                     password: password,
                 })
                 .then(res => {
-                    console.log(res.data)
                     axios
                         .post('/api/user/login/', {
                             email: email,

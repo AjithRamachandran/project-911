@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+
 import axios from 'axios'
 
 import { Button, Form } from 'react-bootstrap'
@@ -7,10 +8,6 @@ const LoginPage = ({ history }) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
-
-    axios.defaults.withCredentials = true
-    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-    axios.defaults.xsrfCookieName = "csrftoken";
 
     useEffect(() => {
         axios

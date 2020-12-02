@@ -38,6 +38,10 @@ const homePage = ({ history }) => {
         e.preventDefault()
         axios
             .post('/api/user/logout/')
+            .then(setUser(0))
+            .catch(err => {
+                console.log(err.response);
+            })
     }
 
     const filterProfileResult = (e) => {

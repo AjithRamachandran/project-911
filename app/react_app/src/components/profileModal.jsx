@@ -7,17 +7,35 @@ import { Button, Modal, Form } from 'react-bootstrap'
 const ProfileModal = (props) => {
 
   const [profile, setProfile] = useState({})
+  const [name, setName] = useState('')
+  const [gender, setGender] = useState('')
+  const [bloodGroup, setBloodGroup] = useState('')
+  const [location, setLocation] = useState('')
+  const [contact, setContact] = useState('')
+  const [secContact, setSecContact] = useState('')
+  const [error, setError] = useState('')
+  const [dob, setDob] = useState(null)
 
   useEffect(() => {
+    getProfile()
+  }, [])
+
+  const getProfile = () => {
     axios
       .get('/api/profile/')
       .then(res => {
-        console.log(res.data);
-        // setProfile(res.data)
+        setProfile(res.data)
+        setName(profile.name)
+        setGender(profile.gender)
+        setBloodGroup(profile.blood_group)
+        setDob(profile.dob)
+        setLocation(profile.district)
+        setContact(profile.contact_number)
+        setSecContact(profile.secondary_contact)
       })
-  }, [])
+  }
 
-  const createProfile = (e) => {
+  const editProfile = (e) => {
     e.preventDefault()
     let profileError = 0
     let errorText = ''
@@ -33,22 +51,42 @@ const ProfileModal = (props) => {
       errorText = 'Please select a location.'
       profileError = 1
     }
+
+    let data = new Object();
+    if (name !== undefined && name !== profile.name) {
+      data.name = name
+      console.log(data)
+    }
+    if (gender !== undefined && gender !== profile.gender) {
+      data.gender = gender
+      console.log(gender !== profile.gender)
+    }
+    if (bloodGroup !== undefined && bloodGroup !== profile.blood_group) {
+      data.blood_group = bloodGroup
+    }
+    if (location !== undefined && location !== profile.district) {
+      data.district = location
+    }
+    if (dob !== undefined && dob !== profile.dob) {
+      console.log(dob)
+      data.dob = dob
+    }
+    if (contact !== undefined && contact !== profile.contact_number) {
+      data.contact_number = contact
+    }
+    if (secContact !== undefined && secContact !== profile.secondary_contact) {
+      data.secondary_contact = secContact
+    }
+
+    console.log(data);
+
     if (profileError === 0) {
       axios
-        .patch('/api/profile/edit/', {
-          name: name,
-          gender: gender,
-          blood_group: bloodGroup,
-          district: location,
-          dob: dob,
-          contact_number: contact,
-          secondary_contact: secContact
-        })
-        .then(history.push('/'))
+        .patch('/api/profile/edit/', data)
+        .then(getProfile())
         .catch((err) => {
           if (err.response) {
-            setError('something went wrong please try again!')
-            console.log(err.response)
+            setError('something went wrong please try again.')
           }
         })
     }
@@ -70,26 +108,27 @@ const ProfileModal = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+      {error && <div className='alert alert-danger'>{error}</div>}
           <Form>
-            <Form.Group controlId="SignupForm.NameInput">
+            <Form.Group controlId="ProfileEditForm.NameInput">
               <Form.Label>Name</Form.Label>
               <Form.Control
-                value={profile.name}
+                defaultValue={profile.name}
                 onChange={(e) => setName(e.target.value)}
                 autoFocus />
             </Form.Group>
-            <Form.Group controlId="SignupForm.GenderSelect">
+            <Form.Group controlId="ProfileEditForm.GenderSelect">
               <Form.Label>Gender</Form.Label>
-              <Form.Control value={profile.gender} as="select" onChange={(e) => setGender(e.target.value)}>
+              <Form.Control defaultValue={profile.gender} as="select" onChange={(e) => setGender(e.target.value)}>
                 <option>Select</option>
                 <option>Female</option>
                 <option>Male</option>
                 <option>Others</option>
               </Form.Control>
             </Form.Group>
-            <Form.Group controlId="SignupForm.BloodGroupSelect">
+            <Form.Group controlId="ProfileEditForm.BloodGroupSelect">
               <Form.Label>Blood Group</Form.Label>
-              <Form.Control as="select" onChange={(e) => setBloodGroup(e.target.value)}>
+              <Form.Control as="select" defaultValue={profile.blood_group} onChange={(e) => setBloodGroup(e.target.value)}>
                 <option>Select</option>
                 <option>A+</option>
                 <option>A-</option>
@@ -101,9 +140,9 @@ const ProfileModal = (props) => {
                 <option>O-</option>
               </Form.Control>
             </Form.Group>
-            <Form.Group controlId="Signup.LocationSelect">
+            <Form.Group controlId="ProfileEditForm.LocationSelect">
               <Form.Label>Location</Form.Label>
-              <Form.Control as="select" onChange={(e) => setLocation(e.target.value)}>
+              <Form.Control as="select" defaultValue={profile.district} onChange={(e) => setLocation(e.target.value)}>
                 <option>Select</option>
                 <option>TVM</option>
                 <option>KLM</option>
@@ -120,29 +159,33 @@ const ProfileModal = (props) => {
                 <option>KSD</option>
               </Form.Control>
             </Form.Group>
-            <Form.Group controlId="SignupForm.DobSelect">
+            <Form.Group controlId="ProfileEditForm.DobSelect">
               <Form.Label>DOB</Form.Label>
-              <Form.Control type="date"
+              <Form.Control 
+                type="date"
                 placeholder="Date of Birth"
+                defaultValue={profile.dob}
                 onChange={(e) => setDob(e.target.value)} />
             </Form.Group>
-            <Form.Group controlId="SignupForm.ContactInput">
+            <Form.Group controlId="ProfileEditForm.ContactInput">
               <Form.Label>Contact</Form.Label>
               <Form.Control
                 type="text"
+                defaultValue={profile.contact_number}
                 onChange={(e) => setContact(e.target.value)} />
             </Form.Group>
-            <Form.Group controlId="SignupForm.SecContactInput">
+            <Form.Group controlId="ProfileEditForm.SecContactInput">
               <Form.Label>Secondary Contact</Form.Label>
               <Form.Control
                 type="text"
+                defaultValue={profile.secondary_contact}
                 onChange={(e) => setSecContact(e.target.value)} />
             </Form.Group>
             <Button
               className='btn btn-primary btn-block mb-2'
               type='submit'
-              onClick={(e) => createProfile(e)} >
-              Submit
+              onClick={(e) => editProfile(e)} >
+              Save
                         </Button>
           </Form>
       </Modal.Body>
