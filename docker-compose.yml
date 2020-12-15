@@ -1,20 +1,20 @@
 version: "3"
 
 services: 
-    app: 
+    ichor: 
         build: 
             context: .
         ports: 
             - "8000:8000"
         volumes: 
-            - ./app:/app
+            - ./ichor:/ichor
         command: >
             sh -c "python manage.py wait_for_db &&
             python manage.py migrate &&
             python manage.py runserver 0.0.0.0:8000 --nostatic"
         environment: 
             - DATABASE_HOST=db
-            - DATABASE_NAME=app
+            - DATABASE_NAME=ichor
             - DATABASE_USER=postgres
             - DATABASE_PASSWORD=postgrespassword
             - SECRET_KEY=p9sw62x^hb4fk3zti%%y)j8*86yx11#cbp8ea+kocmzy_4ou!h
@@ -24,6 +24,6 @@ services:
     db:
         image: postgres:13-alpine
         environment: 
-            - POSTGRES_DB=app
+            - POSTGRES_DB=ichor
             - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=postgrespassword
