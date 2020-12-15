@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 
-from core.permissions import IsOwnerOrReadOnly
+from core.permissions import IsOwnerOrReadOnly, IsSameDomain
 from profiles.models import Profile
 from profiles.serializers import ProfileSerializer
 
@@ -15,6 +15,7 @@ class ProfileApiView(RetrieveAPIView):
     params: none
     """
     serializer_class = ProfileSerializer
+    permission_classes = [IsSameDomain]
 
     def retrieve(self, request, *args, **kwargs):
         instance = Profile.objects.get(user=self.request.user)
@@ -29,7 +30,7 @@ class ProfileEditApiView(APIView):
     """
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
-    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly, IsSameDomain]
 
     def get_object(self):
         profile = Profile.objects.get(user=self.request.user)
@@ -51,6 +52,7 @@ class ListProfileApiView(APIView):
     params: none
     """
     serializer_class = ProfileSerializer
+    permission_classes = [IsSameDomain]
 
     def get(self, request):
         bg = self.request.query_params.get('bg', None)

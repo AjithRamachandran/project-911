@@ -7,6 +7,7 @@ from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 
 from django.contrib.auth import authenticate, login, logout, get_user_model
 
+from core.permissions import IsSameDomain
 from users.serializers import UserSerializer, UpdatePasswordSerializer, UpdateEmailSerializer
 
 class CreateUserView(CreateAPIView):
@@ -16,6 +17,7 @@ class CreateUserView(CreateAPIView):
     params: none
     """
     serializer_class = UserSerializer
+    permission_classes = [IsSameDomain]
 
 class UserLoginView(APIView):
     """
@@ -24,6 +26,7 @@ class UserLoginView(APIView):
     params: none
     """
     serializer_class = UserSerializer
+    permission_classes = [IsSameDomain]
 
     def post(self, request, *args, **kwargs):
         email = request.data.get('email', None)
@@ -44,6 +47,8 @@ class CheckUserView(APIView):
     endpoint: user/isauthenticated
     params: none
     """
+    permission_classes = [IsSameDomain]
+
     def get(self, request):
         is_logged_in = False
         if request.user.is_authenticated:
@@ -57,7 +62,7 @@ class UserLogoutView(APIView):
     params: none
     """ 
     authentication_classes = [SessionAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsSameDomain]
 
     def post(self, request):
         try:
@@ -73,7 +78,7 @@ class UserDetailsView(RetrieveAPIView):
     params: none
     """
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsSameDomain]
 
     def retrieve(self, request, *args, **kwargs):
         serializer = self.get_serializer(instance=self.request.user)
@@ -86,6 +91,7 @@ class UpdatePasswordView(APIView):
     params: none
     """
     serializer_class = UpdatePasswordSerializer
+    permission_classes = [IsSameDomain]
 
     def put(self, request, *args, **kwargs):
         self.object = self.request.user
@@ -108,6 +114,7 @@ class UpdateEmailView(APIView):
     params: none
     """
     serializer_class = UpdateEmailSerializer
+    permission_classes = [IsSameDomain]
 
     def put(self, request, *args, **kwargs):
         self.object = self.request.user
