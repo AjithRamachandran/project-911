@@ -55,9 +55,6 @@ const LoginPage = ({ history }) => {
                             type="password"
                             onChange={(e) => setPassword(e.target.value)}
                             required />
-                        {/* <a className='pull-right' href='reset-password'>
-                            Forgot password?
-                        </a> */}
                     </Form.Group>
                     <Button
                         className='btn btn btn-primary btn-block mb-2'

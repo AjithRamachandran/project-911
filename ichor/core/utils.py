@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
+from django.conf import settings
 
 # constants
 
@@ -16,11 +17,6 @@ GET_BLOOD_BANKS_URL = reverse_lazy('bb:blood_banks')
 
 # end of constants
 
-whitelisted_domains = [
-    '127.0.0.1',
-    'ichorbb.herokuapp.com'
-]
-
 class UtilityFunctions():
     @staticmethod
     def create_user(**params):
@@ -28,11 +24,7 @@ class UtilityFunctions():
 
     @staticmethod
     def check_client_ip(request):
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            ip = x_forwarded_for.split(',')[0]
-        else:
-            ip = '127.0.0.1'
-        if ip in whitelisted_domains:
-            return False
-        return True
+        url = request.META.get('HTTP_REFERER','')
+        if url in settings.WHITELIST_DOMAINS:
+            return True
+        return False

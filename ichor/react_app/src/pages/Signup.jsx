@@ -4,7 +4,10 @@ import axios from 'axios'
 
 import { Button, Form } from 'react-bootstrap'
 
+import TermsModal from '../components/termsModal.jsx'
+
 const SignupPage = ({ history }) => {
+    const [showTerms, setShowTerms] = useState(false);
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confPassword, setConfPassword] = useState('')
@@ -126,6 +129,10 @@ const SignupPage = ({ history }) => {
                                     type="password"
                                     onChange={(e) => setConfPassword(e.target.value)} />
                             </Form.Group>
+                            <Button variant='link' onClick={() => setShowTerms(true)}>Read our privacy policy</Button>
+                            <TermsModal
+                                show={showTerms}
+                                onHide={() => setShowTerms(false)} />
                             <button
                                 className='btn btn btn-primary btn-block mb-2'
                                 onClick={(e) => createUser(e)}

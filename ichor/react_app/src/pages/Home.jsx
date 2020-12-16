@@ -46,8 +46,6 @@ const homePage = ({ history }) => {
 
     const filterProfileResult = (e) => {
         e.preventDefault()
-        console.log(bloodGroup);
-        console.log(profileDistrict);
         axios
             .get('/api/profile/all/', {
                 params: {
@@ -55,7 +53,7 @@ const homePage = ({ history }) => {
                     district: profileDistrict
                 }
             })
-            .then(res => { console.log(res.data); setProfiles(res.data) })
+            .then(res => { setProfiles(res.data) })
     }
 
     const filterBbResult = (e) => {
@@ -67,13 +65,13 @@ const homePage = ({ history }) => {
                     district: bbDistrict
                 }
             })
-            .then(res => { console.log(res.data); setBb(res.data) })
+            .then(res => { setBb(res.data) })
     }
 
     return (
         <div className='bg-secondary'>
             <Navbar bg="dark" className="justify-content-between" variant="dark">
-                <Navbar.Brand><img href="https://ibb.co/kQMk6tp"></img>Ichor</Navbar.Brand>
+                <Navbar.Brand><img className='image' src="https://i.ibb.co/RQBBTG0/ichor.png" />Ichor</Navbar.Brand>
                 {user === 1 &&
                     <Dropdown alignRight>
                         <Dropdown.Toggle variant="primary" id="dropdown-basic">

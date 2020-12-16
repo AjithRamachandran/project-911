@@ -132,4 +132,4 @@ dmypy.json
 .vscode/
 
 #node modules
-app/react_app/node_modules/
+ichor/react_app/node_modules/

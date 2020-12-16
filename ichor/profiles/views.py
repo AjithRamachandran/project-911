@@ -57,7 +57,7 @@ class ListProfileApiView(APIView):
     def get(self, request):
         bg = self.request.query_params.get('bg', None)
         district = self.request.query_params.get('district', None)
-        
+
         if(district == 'District' or district == ''):
             district = None
         
